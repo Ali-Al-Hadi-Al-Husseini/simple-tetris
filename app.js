@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid')
+
+
     const mini_grid = document.querySelector('.mini-grid')
     for (let i = 0; i < 200; i++){
         let node = document.createElement("div")
@@ -14,11 +16,22 @@ document.addEventListener('DOMContentLoaded', () => {
         let node = document.createElement("div")
         mini_grid.appendChild(node)
       }
+
+
+
+
     let squares = Array.from(document.querySelectorAll('.grid div'))
     let miniGridSquares = Array.from(document.querySelectorAll('.mini-grid div'))
     const scoreDisplay = document.querySelector('#score')
     const levelDisplay = document.querySelector("#level")
     const startBtn = document.querySelector('#start-button')
+    const leftBtn = document.querySelector("#left-button")
+    const upBtn = document.querySelector("#up-button")
+    const downBtn = document.querySelector("#down-button")
+    const rightBtn = document.querySelector("#right-button")
+    const arrow_container = document.querySelector(".arrow-container")
+    
+    //glorbal variables
     const width = 10
     let nextRandom = 0
     let timerId
@@ -34,6 +47,16 @@ document.addEventListener('DOMContentLoaded', () => {
       'blue'
     ]
   
+    //arrow buttons functionality
+
+    leftBtn.addEventListener('click',moveLeft)
+    upBtn.addEventListener('click',rotate)
+    downBtn.addEventListener('click',moveDown)
+    rightBtn.addEventListener('click',moveRight)
+
+
+
+
     //The Tetrominoes
     const lTetromino = [
       [1, width+1, width*2+1, 2],
