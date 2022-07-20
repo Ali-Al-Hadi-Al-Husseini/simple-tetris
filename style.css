@@ -75,10 +75,13 @@ body{
   }
 
 .level_and_button{
-    width: calc(var(--gridWidth) / 2);
+    width: calc(var(--gridWidth) - 20px);
     display: flex;
     justify-content: space-between;
-}
+    position: relative;
+    left: -10px;
+  }
+
 .button{
     max-width: 100%;
     max-height: 50px;
