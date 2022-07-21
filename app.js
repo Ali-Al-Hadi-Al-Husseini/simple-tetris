@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid')
-
+    
 
     const mini_grid = document.querySelector('.mini-grid')
     for (let i = 0; i < 200; i++){
@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const upBtn = document.querySelector("#up-button")
     const downBtn = document.querySelector("#down-button")
     const rightBtn = document.querySelector("#right-button")
-    const arrow_container = document.querySelector(".arrow-container")
     
     //glorbal variables
     const width = 10
@@ -37,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let timerId
     let timerIdInterval = 1000
     let score = 0
-    let overAllScore = 0
-    let level = 1;
+    let overAllScore = checkforOverAllScoreInLocalStorage()
+    let level = checkForLevelsInLocalStorage()
     const colors = [
       'orange',
       'red',
@@ -123,6 +122,31 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     }
   
+
+    // check for level in local-storage
+    function checkForLevelsInLocalStorage(){
+         let foundLevel = localStorage.getItem('LEVEL')
+         if (foundLevel === null){
+            return 1
+         }
+         levelDisplay.innerHTML = foundLevel
+        
+
+
+         for(let i = 0; i < foundLevel-1;i++){
+            timerIdInterval *= 0.75
+         }
+         
+         return foundLevel
+    
+    }
+    function checkforOverAllScoreInLocalStorage(){
+        let overAllScoreFound = localStorage.getItem('overAllScore')
+        if (overAllScoreFound === null){
+            return 0
+        }
+        return overAllScoreFound
+    }
     //assign functions to keyCodes
     function control(e) {
       if(e.keyCode === 37) {
@@ -259,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             draw()
             timerId = setInterval(moveDown, timerIdInterval)
-            nextRandom = Math.floor(Math.random()*theTetrominoes.length)
+
             displayShape()
         }
     }
@@ -268,13 +292,15 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function goToNextLevel(){
         level += 1 
+        localStorage.setItem('LEVEL',level)
+        localStorage.setItem('overAllScore',overAllScore)
         timerIdInterval *= 0.75
         overAllScore += score
         score = 0
         scoreDisplay.innerHTML = score
         levelDisplay.innerHTML = level
         clearAllSquares()
-        start
+        start()
 
     }
     //add score
@@ -308,6 +334,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function gameOver() {
       if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
         scoreDisplay.innerHTML = 0
+        localStorage.setItem("LEVEL",1)
+        localStorage.setItem('overAllScore',0)
+        resetToDefaults()
         clearAllSquares()
         alert("  \t\t\t\t\t GAME OVER! \n \t\t\t\t     Overall score is " + overAllScore)
 
@@ -323,6 +352,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function removeElementStyleAndClass(element){
         element.classList = []
         element.style = ''
+    }
+    function resetToDefaults(){
+        level = 0
+        overAllScore = 0
+        timerIdInterval = 1000
     }
   })
   

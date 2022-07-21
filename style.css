@@ -72,6 +72,7 @@ body{
   
 }
 .arrow-container{
+    width: var(--gridWidth);
     display: flex ;
     flex-wrap:cloumn;
     margin-top: 75px;
